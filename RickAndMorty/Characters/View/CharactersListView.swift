@@ -8,8 +8,43 @@
 import SwiftUI
 
 struct CharactersListView: View {
+    @StateObject private var model = CharactersViewModel()
+    @State private var selectedCharacter: Character? = nil
+
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                ForEach(model.characters) { character in
+                    CharactersItemView(character)
+                    .listRowInsets(.init(.zero))
+                    .padding()
+                    .onTapGesture {
+                        self.selectedCharacter = character
+                    }
+                }
+                if model.paginationFinished == false {
+                    ProgressView()
+                    .onAppear {
+                        model.fetchCharacters()
+                    }
+                }
+            }
+            .navigationBarTitle(Constants.characters)
+            .listStyle(.plain)
+            .onAppear {
+                model.fetchCharacters()
+            }
+        }
+        .sheet(item: self.$selectedCharacter) { character in
+            CharacterDetailedView(character: character)
+        }
+        .alert(isPresented: $model.showErrorAlert, content: { () -> Alert in
+            Alert(title: Text(Constants.error), message: Text(Constants.errorMessage), primaryButton: .default(Text(Constants.cancel)), secondaryButton: Alert.Button.destructive(Text(Constants.tryAgain), action: {
+                model.fetchCharacters()
+            }))
+        })
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

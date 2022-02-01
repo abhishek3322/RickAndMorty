@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct LocationInfo: Decodable {
+    var name: String?
+    var url: String?
+}

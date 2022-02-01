@@ -6,3 +6,22 @@
 //
 
 import Foundation
+import SwiftUI
+
+enum LivingStatus: String, Decodable {
+    case alive = "Alive"
+    case dead = "Dead"
+    case unknown = "unknown"
+    
+    
+    var color: Color {
+        switch self {
+        case .alive:
+            return .green
+        case .dead:
+            return .red
+        case .unknown:
+            return .gray
+        }
+    }
+}

@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct CharacterDetailedView: View {
+    
+    var character: Character
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-struct CharacterDetailedView_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterDetailedView()
+        URLImage(character.imageUrl) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
     }
 }

@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct CharacterResponse: Decodable {
+    var info: CharacterResultInfo?
+    var results: [Character]?
+}

@@ -10,24 +10,29 @@ import XCTest
 
 class RickAndMortyTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testHandleSuccessResponse() {
+        let viewModel = CharactersViewModel()
+        
+        var response = CharacterResponse()
+        response.results = []
+        response.info = CharacterResultInfo.init(count: 200, pages: 4, next: "test", prev: "123")
+        viewModel.handleSuccessResponse(response)
+    
+        XCTAssertTrue(viewModel.currentPage == 2)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testHandleErrorResponse() {
+        let viewModel = CharactersViewModel()
+        
+        viewModel.handleErrorResponse(MockError.someExpectedError)
+    
+        XCTAssertTrue(viewModel.paginationFinished)
+        XCTAssertTrue(viewModel.showErrorAlert)
     }
+}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+private enum MockError: Error {
+    case someExpectedError
+    case someUnexpectedError
 }

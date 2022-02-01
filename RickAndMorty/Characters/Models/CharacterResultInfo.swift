@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct CharacterResultInfo: Decodable {
+    var count: Int?
+    var pages: Int?
+    var next: String?
+    var prev: String?
+}
